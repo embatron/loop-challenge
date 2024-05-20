@@ -1,0 +1,315 @@
+<?php
+
+use Drupal\field\Entity\FieldConfig;
+use Drupal\field\Entity\FieldStorageConfig;
+use Drupal\taxonomy\Entity\Vocabulary;
+use Drupal\Core\Entity\Entity\EntityFormDisplay;
+use Drupal\taxonomy\Entity\TaxonomyTerm;
+use Drupal\taxonomy\Entity\Term;
+use Psr\Log\LoggerInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\node\Entity\NodeType;
+use Drupal\Core\Entity\Entity\EntityViewDisplay;
+use Drupal\loop\Form\LoopCustomEventWebsiteLinkForm;
+
+function loop_schema() {
+  $schema['node__field_loop_event_website_target'] = array(
+    'description' => 'Schema for extended field Target',
+    'fields' => array(
+      'nid' => array(
+        'description' => 'Node ID',
+        'type' => 'serial',
+        'not null' => TRUE,
+      ),
+      'target' => array(
+        'description' => 'Target',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => FALSE,
+      ),
+    ),
+    'primary key' => array('nid'),
+  );
+  \Drupal::logger('loop')->notice('New Event Website Target table created');
+  return $schema;
+}
+
+/**
+ * Implements hook_install().
+ */
+function loop_install() {
+  $vocabulary_name = 'loop_artists';
+  $vocabulary = Vocabulary::load($vocabulary_name);
+
+  try {
+    // Artists taxonomy vocabulary init
+    if (!$vocabulary) {
+      $vocabulary = Vocabulary::create([
+        'vid' => $vocabulary_name,
+        'description' => 'Artists Vocabulary for Loop test site',
+        'name' => 'Artists',
+      ]);
+
+      $vocabulary->save();
+    }
+
+    // Taxonomy's field instances (related to provided JSON file)
+    $fields_to_create = [
+      'field_loop_active' => ['type' => 'boolean', 'label' => 'Active', 'allowed_values' => ['1' => 'True', '0' => 'False']],
+      'field_loop_albums' => ['type' => 'integer', 'label' => 'Albums'],
+      'field_loop_genre' => ['type' => 'string', 'label' => 'Genre'],
+      'field_loop_nationality' => ['type' => 'string', 'label' => 'Nationality'],
+    ];
+
+    foreach ($fields_to_create as $field_name => $field_data) {
+      $field_storage = FieldStorageConfig::loadByName('taxonomy_term', $field_name);
+
+    if (!$field_storage) {
+      $field_storage = FieldStorageConfig::create([
+        'field_name' => $field_name,
+        'entity_type' => 'taxonomy_term',
+        'type' => $field_data['type'],
+        'cardinality' => 1,
+      ]);
+
+        $field_storage->save();
+      }
+
+      $field = FieldConfig::loadByName('taxonomy_term', $vocabulary_name, $field_name);
+
+      if (!$field) {
+        $field = FieldConfig::create([
+          'field_storage' => $field_storage,
+          'bundle' => $vocabulary_name,
+          'label' => $field_data['label'],
+        ]);
+
+        $field->save();
+      }
+    }
+
+    \Drupal::logger('loop')->notice('Vocabulary Artists created and all fields updated');
+
+    $form_display = EntityFormDisplay::load('taxonomy_term.' . $vocabulary_name . '.default');
+
+    if (!$form_display) {
+      $form_display = EntityFormDisplay::create([
+        'targetEntityType' => 'taxonomy_term',
+        'bundle' => $vocabulary_name,
+        'mode' => 'default',
+        'status' => TRUE,
+      ]);
+    }
+
+    $weight = $form_display->getComponent('name')['weight'];
+
+    foreach ($fields_to_create as $field_name => $field_type) {
+      $weight += 1;
+      $form_display->setComponent($field_name, [
+        'type' => 'string_textfield',
+        'weight' => $weight,
+      ]);
+    }
+
+    $form_display->removeComponent('description');
+
+    $form_display->save();
+
+  $display = EntityViewDisplay::load('taxonomy_term.' . $vocabulary_name . '.default');
+
+  if (!$display) {
+    $display = EntityViewDisplay::create([
+      'targetEntityType' => 'taxonomy_term',
+      'bundle' => $vocabulary_name,
+      'mode' => 'default',
+      'status' => TRUE,
+    ]);
+  }
+
+  // Fields visibility
+  foreach ($fields_to_create as $field_name => $field_type) {
+      $display->setComponent($field_name, [
+        'type' => 'string',
+        'label' => 'inline'
+      ]);
+  }
+
+  // Сохраняем отображение сущности.
+  $display->save();
+
+  \Drupal::logger('loop')->notice('Vocabulary Artists updated (form display)');
+
+
+  // Create a node type (Event) with fields
+  $node_type_name = 'loop_event';
+  $node_type = NodeType::load($node_type_name);
+
+  try {
+    if (!$node_type) {
+      $node_type = NodeType::create(['type' => 'loop_event', 'name' => 'Event', 'description' => 'Special Node type for Loop test purposes']);
+      $node_type->set('translatable', TRUE);
+      $node_type->save();
+    }
+
+    \Drupal::logger('loop')->notice('Node type Event Created');
+
+  $fields_to_create = [
+    'description' => ['type' => 'text_long', 'label' => 'Description', 'required' => TRUE, 'translatable' => TRUE],
+    'date' => ['type' => 'datetime', 'label' => 'Date', 'required' => TRUE, 'translatable' => TRUE],
+    'location' => ['type' => 'list_string', 'label' => 'Location', 'settings' => ['allowed_values' => ['Berlin' => 'Berlin', 'Prague' => 'Prague', 'Los Angeles' => 'Los Angeles', 'Munich' => 'Munich', 'Barcelona' => 'Barcelona']], 'required' => TRUE, 'translatable' => TRUE],
+    'image' => ['type' => 'image', 'label' => 'Image', 'required' => FALSE, 'translatable' => FALSE],
+    'organizer' => ['type' => 'string', 'label' => 'Organizer', 'required' => TRUE, 'translatable' => TRUE],
+    'artists' => ['type' => 'entity_reference', 'label' => 'Artists', 'settings' => ['target_type' => 'taxonomy_term', 'handler' => 'default:taxonomy_term', 'handler_settings' => ['target_bundles' => ['loop_artists' => 'loop_artists'], 'auto_create' => TRUE]], 'cardinality' => -1, 'required' => TRUE, 'translatable' => TRUE],
+    'event_website' => ['type' => 'link', 'label' => 'Event Website', 'required' => TRUE, 'translatable' => TRUE],
+  ];
+
+    foreach ($fields_to_create as $field_name => $field_info) {
+      $field_storage = FieldStorageConfig::loadByName('node', $field_name);
+      if (!$field_storage) {
+        $field_storage = FieldStorageConfig::create([
+          'field_name' => 'field_loop_' . $field_name,
+          'entity_type' => 'node',
+          'type' => $field_info['type'],
+          'settings' => $field_info['settings'] ?? [],
+          'bundle' => 'loop_event',
+          'cardinality' => $field_info['cardinality'] ?? 1,
+        ]);
+        $field_storage->save();
+      }
+
+      $field = FieldConfig::loadByName('node', 'loop_event', $field_name);
+
+      if (!$field) {
+        $field = FieldConfig::create([
+          'field_storage' => $field_storage,
+          'bundle' => 'loop_event',
+          'label' => ucfirst(str_replace('_', ' ', $field_name)),
+          'required' => $field_info['required'],
+          'translatable' => $field_info['translatable'],
+        ]);
+
+        $field->save();
+      }
+    }
+
+    \Drupal::logger('loop')->notice('All required fields for Event Node Type created');
+
+    $form_display = EntityFormDisplay::load('node.loop_event.default');
+    if (!$form_display) {
+      $form_display = EntityFormDisplay::create([
+        'targetEntityType' => 'node',
+        'bundle' => 'loop_event',
+        'mode' => 'default',
+        'status' => TRUE,
+      ]);
+    }
+
+    $weight = 0;
+    foreach (['title', 'description', 'date', 'location', 'image', 'organizer', 'artists', 'event_website'] as $field_name) {
+      $weight += 1;
+      $form_display->setComponent('field_loop_' . $field_name, [
+        'type' => 'string_textfield',
+        'weight' => $weight,
+      ]);
+    }
+
+    $form_display->removeComponent('body');
+    $form_display->save();
+
+$display = EntityViewDisplay::load('node.loop_event.default');
+if (!$display) {
+  $display = EntityViewDisplay::create([
+    'targetEntityType' => 'node',
+    'bundle' => 'loop_event',
+    'mode' => 'default',
+    'status' => TRUE,
+  ]);
+}
+
+// Fields visibility + image options
+$display->setComponent('field_loop_image', [
+  'type' => 'image',
+  'label' => 'hidden',
+  'weight' => -10,
+]);
+
+
+foreach ($fields_to_create as $field_name => $field_info) {
+  if ($field_name == 'artists') {
+    $display->setComponent('field_loop_' . $field_name, [
+      'type' => 'entity_reference_label',
+      'label' => 'above',
+    ]);
+  } elseif ($field_name != 'image') {
+    $display->setComponent('field_loop_' . $field_name, [
+      'type' => 'string',
+      'label' => 'above',
+    ]);
+  }
+}
+
+$display->save();
+
+  } catch (\Exception $e) {
+    watchdog_exception('loop', $e);
+  }
+
+    // Run cron for init update all terms and clear the cache 
+    \Drupal::service('cron')->run();
+    \Drupal::logger('loop')->notice('Cron successfully updated all artists terms');
+    \Drupal::service('cache.render')->invalidateAll();
+    \Drupal::logger('loop')->notice('Cache cleared');
+  }
+  catch (Exception $e) {
+    \Drupal::logger('loop')->error($e->getMessage());
+  }
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function loop_uninstall() {
+  // Logger service
+  $logger = \Drupal::service('logger.channel.default');
+
+  $vocabulary = 'loop_artists';
+  $node_type = 'loop_event';
+
+  try {
+    if ($vocabulary = Vocabulary::load($vocabulary)) {
+      $terms = \Drupal::entityTypeManager()
+        ->getStorage('taxonomy_term')
+        ->loadByProperties(['vid' => $vocabulary->id()]);
+
+      foreach ($terms as $term) {
+        $term->delete();
+      }
+
+      $vocabulary->delete();
+
+      $logger->info('The Taxonomy Vocabulary (Artists) and all its terms have been successfully removed.');
+    }
+
+    if ($node_type = NodeType::load($node_type)) {
+      $nodes = \Drupal::entityTypeManager()
+        ->getStorage('node')
+        ->loadByProperties(['type' => $node_type->id()]);
+
+      foreach ($nodes as $node) {
+        $node->delete();
+      }
+
+      $node_type->delete();
+
+      $logger->info('The content type (Event) and all its nodes have been successfully deleted.');
+    }
+  }
+  catch (\Exception $e) {
+    \Drupal::logger('delete_content')->error('Error when deleting a taxonomy or material type dictionary: @message', ['@message' => $e->getMessage()]);
+  }
+
+  if (\Drupal::database()->schema()->tableExists('node__field_loop_event_website_target')) {
+    \Drupal::database()->delete('node__field_loop_event_website_target')->execute();
+    \Drupal::database()->schema()->dropTable('node__field_loop_event_website_target');
+  }
+}

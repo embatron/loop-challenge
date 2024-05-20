@@ -1,0 +1,10 @@
+uuid: 4810b751-8fa0-44ec-b0c5-a1408f01ab69
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: HNU5k5HwDtiqmjlsKgoIzYztTqTA3ctHEh6mMUQQEC8
+name: Artists
+vid: loop_artists
+description: 'Artists Vocabulary for Loop test site'
+weight: 0

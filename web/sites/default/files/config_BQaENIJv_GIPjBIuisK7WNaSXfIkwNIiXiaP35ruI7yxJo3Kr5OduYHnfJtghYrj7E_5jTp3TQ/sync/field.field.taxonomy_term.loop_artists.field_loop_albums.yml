@@ -1,0 +1,23 @@
+uuid: 13f4d07f-bf3a-4141-a98f-4a652bdde2ce
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_loop_albums
+    - taxonomy.vocabulary.loop_artists
+id: taxonomy_term.loop_artists.field_loop_albums
+field_name: field_loop_albums
+entity_type: taxonomy_term
+bundle: loop_artists
+label: Albums
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

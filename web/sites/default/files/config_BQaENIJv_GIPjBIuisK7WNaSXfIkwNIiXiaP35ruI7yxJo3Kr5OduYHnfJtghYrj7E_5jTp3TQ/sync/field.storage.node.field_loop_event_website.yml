@@ -1,0 +1,19 @@
+uuid: 7e73d90c-4ed1-4d30-ad93-42c567301ac2
+langcode: en
+status: true
+dependencies:
+  module:
+    - link
+    - node
+id: node.field_loop_event_website
+field_name: field_loop_event_website
+entity_type: node
+type: link
+settings: {  }
+module: link
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

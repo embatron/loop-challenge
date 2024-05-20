@@ -1,0 +1,19 @@
+uuid: 3d95ca6e-a783-4f39-bba0-9ce56ed6f151
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_loop_nationality
+    - taxonomy.vocabulary.loop_artists
+id: taxonomy_term.loop_artists.field_loop_nationality
+field_name: field_loop_nationality
+entity_type: taxonomy_term
+bundle: loop_artists
+label: Nationality
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

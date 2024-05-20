@@ -1,0 +1,21 @@
+uuid: 9fc3d7b2-0d1f-4cd5-9173-818ff2a61750
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_loop_location
+    - node.type.loop_event
+  module:
+    - options
+id: node.loop_event.field_loop_location
+field_name: field_loop_location
+entity_type: node
+bundle: loop_event
+label: Location
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

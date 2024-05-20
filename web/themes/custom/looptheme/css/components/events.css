@@ -1,0 +1,16 @@
+.events .view-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.events .views-row .views-field-field-loop-image {
+  float: right
+}
+
+@media (max-width: 1064px) {
+  .events .views-row .views-field-field-loop-image {
+    float: none;
+    position: relative;
+    margin-bottom: 15px;
+  }
+}

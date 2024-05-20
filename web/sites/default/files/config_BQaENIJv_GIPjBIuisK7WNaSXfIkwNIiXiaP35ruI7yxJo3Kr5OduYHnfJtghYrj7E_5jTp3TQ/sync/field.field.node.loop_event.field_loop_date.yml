@@ -1,0 +1,21 @@
+uuid: e6ff0e7a-f8aa-4957-9bea-2638e3fbf8f0
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_loop_date
+    - node.type.loop_event
+  module:
+    - datetime
+id: node.loop_event.field_loop_date
+field_name: field_loop_date
+entity_type: node
+bundle: loop_event
+label: Date
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: datetime

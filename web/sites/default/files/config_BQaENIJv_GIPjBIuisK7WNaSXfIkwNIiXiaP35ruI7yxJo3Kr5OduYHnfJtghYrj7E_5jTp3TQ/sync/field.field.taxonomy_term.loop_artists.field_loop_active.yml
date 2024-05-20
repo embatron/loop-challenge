@@ -1,0 +1,21 @@
+uuid: 1586c195-08ca-456e-9bc6-1d7fb8d1041a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_loop_active
+    - taxonomy.vocabulary.loop_artists
+id: taxonomy_term.loop_artists.field_loop_active
+field_name: field_loop_active
+entity_type: taxonomy_term
+bundle: loop_artists
+label: Active
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

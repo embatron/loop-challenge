@@ -1,0 +1,8 @@
+name: Loop Theme
+type: theme
+description: 'A custom Loop theme that inherits from Olivero.'
+package: Custom
+core_version_requirement: ^9 || ^10
+base theme: olivero
+libraries:
+  - looptheme/global-styling

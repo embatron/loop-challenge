@@ -1,0 +1,21 @@
+uuid: bf18a5d7-8cff-41f8-b84f-885e2b4160e9
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.loop_artists
+  module:
+    - text
+id: taxonomy_term.loop_artists.description
+field_name: description
+entity_type: taxonomy_term
+bundle: loop_artists
+label: Description
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  allowed_formats: {  }
+field_type: text_long

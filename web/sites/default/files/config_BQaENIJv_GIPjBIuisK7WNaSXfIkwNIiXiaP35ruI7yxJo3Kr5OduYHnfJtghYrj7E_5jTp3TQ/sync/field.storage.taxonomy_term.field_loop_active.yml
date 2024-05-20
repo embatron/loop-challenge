@@ -1,0 +1,18 @@
+uuid: 94618f27-3840-420e-bae7-77fa2dc6d15f
+langcode: en
+status: true
+dependencies:
+  module:
+    - taxonomy
+id: taxonomy_term.field_loop_active
+field_name: field_loop_active
+entity_type: taxonomy_term
+type: boolean
+settings: {  }
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

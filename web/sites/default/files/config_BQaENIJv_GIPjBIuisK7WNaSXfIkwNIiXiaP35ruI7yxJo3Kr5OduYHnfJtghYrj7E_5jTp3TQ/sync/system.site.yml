@@ -1,0 +1,14 @@
+_core:
+  default_config_hash: VDJxTZtQR21qB4lvOq8zszJZLvLKrSPQpdn2E3T71Ww
+langcode: en
+uuid: b6956189-3b14-41fc-ac70-8c55df72d4af
+name: 'Loop Test'
+mail: EAKull@gmail.com
+slogan: ''
+page:
+  403: ''
+  404: ''
+  front: /node/24
+admin_compact_mode: false
+weight_select_max: 100
+default_langcode: en

@@ -1,0 +1,58 @@
+uuid: 4c11dddd-487d-43bd-bcdd-9386878ef247
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.taxonomy_term.loop_artists.field_loop_active
+    - field.field.taxonomy_term.loop_artists.field_loop_albums
+    - field.field.taxonomy_term.loop_artists.field_loop_genre
+    - field.field.taxonomy_term.loop_artists.field_loop_nationality
+    - taxonomy.vocabulary.loop_artists
+  module:
+    - text
+id: taxonomy_term.loop_artists.default
+targetEntityType: taxonomy_term
+bundle: loop_artists
+mode: default
+content:
+  description:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_loop_active:
+    type: string
+    label: inline
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_loop_albums:
+    type: string
+    label: inline
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_loop_genre:
+    type: string
+    label: inline
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  field_loop_nationality:
+    type: string
+    label: inline
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 4
+    region: content
+hidden:
+  langcode: true

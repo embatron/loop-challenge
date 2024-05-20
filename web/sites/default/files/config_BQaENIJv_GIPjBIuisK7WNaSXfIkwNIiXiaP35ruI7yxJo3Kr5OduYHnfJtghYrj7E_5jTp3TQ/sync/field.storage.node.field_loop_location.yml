@@ -1,0 +1,36 @@
+uuid: 8f7e35ad-16d3-4dfe-a6df-f4d562540fd2
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+    - options
+id: node.field_loop_location
+field_name: field_loop_location
+entity_type: node
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: Berlin
+      label: Berlin
+    -
+      value: Prague
+      label: Prague
+    -
+      value: 'Los Angeles'
+      label: 'Los Angeles'
+    -
+      value: Munich
+      label: Munich
+    -
+      value: Barcelona
+      label: Barcelona
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

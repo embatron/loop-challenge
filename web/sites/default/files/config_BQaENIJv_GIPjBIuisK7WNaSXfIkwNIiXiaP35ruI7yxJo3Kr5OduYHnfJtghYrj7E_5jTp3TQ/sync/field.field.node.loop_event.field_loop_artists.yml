@@ -1,0 +1,21 @@
+uuid: dae2762f-084a-4aea-a014-88f7dfb18251
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_loop_artists
+    - node.type.loop_event
+id: node.loop_event.field_loop_artists
+field_name: field_loop_artists
+entity_type: node
+bundle: loop_event
+label: Artists
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings: {  }
+field_type: entity_reference

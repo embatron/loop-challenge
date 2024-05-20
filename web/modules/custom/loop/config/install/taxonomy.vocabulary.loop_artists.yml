@@ -1,0 +1,7 @@
+langcode: en
+status: true
+dependencies: {  }
+name: Artists
+vid: loop_artists
+description: 'Artists Vocabulary for Loop test site'
+weight: 0

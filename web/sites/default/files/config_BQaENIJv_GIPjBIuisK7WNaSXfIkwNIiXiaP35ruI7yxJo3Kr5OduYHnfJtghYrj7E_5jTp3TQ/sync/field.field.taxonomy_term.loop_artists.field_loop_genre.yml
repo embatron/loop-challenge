@@ -1,0 +1,19 @@
+uuid: 281d34c4-c86c-4182-ac72-7e5f6baa6de5
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_loop_genre
+    - taxonomy.vocabulary.loop_artists
+id: taxonomy_term.loop_artists.field_loop_genre
+field_name: field_loop_genre
+entity_type: taxonomy_term
+bundle: loop_artists
+label: Genre
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string
