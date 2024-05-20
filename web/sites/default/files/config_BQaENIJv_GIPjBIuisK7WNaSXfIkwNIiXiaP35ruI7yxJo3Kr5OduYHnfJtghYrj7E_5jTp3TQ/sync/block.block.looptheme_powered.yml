@@ -1,0 +1,22 @@
+uuid: ddfae8c3-6cfe-4d09-a112-92e65d9e6939
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - looptheme
+_core:
+  default_config_hash: eYL19CLDyinGTWYQfBD1DswWzglEotE_kHnHx3AxTXM
+id: looptheme_powered
+theme: looptheme
+region: content
+weight: -2
+provider: null
+plugin: system_powered_by_block
+settings:
+  id: system_powered_by_block
+  label: 'Powered by Drupal'
+  label_display: '0'
+  provider: system
+visibility: {  }

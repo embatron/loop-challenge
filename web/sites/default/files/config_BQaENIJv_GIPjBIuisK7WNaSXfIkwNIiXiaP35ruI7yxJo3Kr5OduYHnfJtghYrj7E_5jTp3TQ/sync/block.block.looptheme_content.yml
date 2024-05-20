@@ -1,0 +1,22 @@
+uuid: 169e01a6-219e-4713-86f2-ab717499db76
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - looptheme
+_core:
+  default_config_hash: erQSEZF2XUjNmgTl0uNRBzmg18ZGXwUcw2FhApoeuHk
+id: looptheme_content
+theme: looptheme
+region: content
+weight: -5
+provider: null
+plugin: system_main_block
+settings:
+  id: system_main_block
+  label: 'Main page content'
+  label_display: '0'
+  provider: system
+visibility: {  }

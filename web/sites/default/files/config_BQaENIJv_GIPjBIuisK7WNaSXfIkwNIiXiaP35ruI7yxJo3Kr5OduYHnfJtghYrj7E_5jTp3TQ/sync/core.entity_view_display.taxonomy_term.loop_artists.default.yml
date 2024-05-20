@@ -23,18 +23,21 @@ content:
     weight: 0
     region: content
   field_loop_active:
-    type: string
+    type: boolean
     label: inline
     settings:
-      link_to_entity: false
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
     third_party_settings: {  }
     weight: 1
     region: content
   field_loop_albums:
-    type: string
+    type: number_integer
     label: inline
     settings:
-      link_to_entity: false
+      thousand_separator: ''
+      prefix_suffix: true
     third_party_settings: {  }
     weight: 2
     region: content

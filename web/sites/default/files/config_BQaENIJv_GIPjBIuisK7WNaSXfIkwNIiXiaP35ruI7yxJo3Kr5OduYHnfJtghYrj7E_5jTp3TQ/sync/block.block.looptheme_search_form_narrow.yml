@@ -1,0 +1,23 @@
+uuid: db25e164-dec4-4f88-8682-205a5fdee5a7
+langcode: en
+status: true
+dependencies:
+  module:
+    - search
+  theme:
+    - looptheme
+_core:
+  default_config_hash: yEBET0cqDbk8dkWzaJw-8CKft0961VBflsISoSR6Lj8
+id: looptheme_search_form_narrow
+theme: looptheme
+region: primary_menu
+weight: -4
+provider: null
+plugin: search_form_block
+settings:
+  id: search_form_block
+  label: 'Search form (narrow)'
+  label_display: '0'
+  provider: search
+  page_id: ''
+visibility: {  }

@@ -3,20 +3,32 @@ langcode: en
 status: true
 dependencies:
   module:
+    - language
     - node
 id: event_path_pattern
 label: 'Event path pattern'
 type: 'canonical_entities:node'
 pattern: '/events/[node:title]'
 selection_criteria:
-  c794b4c6-4be5-4fc7-ad29-8ba344f79c7d:
+  5c5523f1-8667-4c10-b119-4eb963f59804:
     id: 'entity_bundle:node'
     negate: false
-    uuid: c794b4c6-4be5-4fc7-ad29-8ba344f79c7d
+    uuid: 5c5523f1-8667-4c10-b119-4eb963f59804
     context_mapping:
       node: node
     bundles:
       loop_event: loop_event
+  1c4fc454-a68e-4c3e-992d-07f3558980c2:
+    id: language
+    negate: false
+    uuid: 1c4fc454-a68e-4c3e-992d-07f3558980c2
+    context_mapping:
+      language: 'node:langcode:language'
+    langcodes:
+      en: en
+      de: de
 selection_logic: and
 weight: -5
-relationships: {  }
+relationships:
+  'node:langcode:language':
+    label: Language

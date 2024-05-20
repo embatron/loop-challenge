@@ -1,0 +1,22 @@
+uuid: 8bdaca4a-a14c-4102-be42-75d32603d71d
+langcode: en
+status: true
+dependencies:
+  theme:
+    - looptheme
+_core:
+  default_config_hash: nGE3EoPQQaQCuqTUtZgw0-KIzmrqdKDzdNQf2JyPUt4
+id: looptheme_primary_local_tasks
+theme: looptheme
+region: highlighted
+weight: -4
+provider: null
+plugin: local_tasks_block
+settings:
+  id: local_tasks_block
+  label: 'Primary tabs'
+  label_display: '0'
+  provider: core
+  primary: true
+  secondary: false
+visibility: {  }

@@ -1,0 +1,25 @@
+uuid: 50a2bb87-78c2-42ea-9a19-ba74a47b8338
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - looptheme
+_core:
+  default_config_hash: n_nlgjggHVfQt2H__zvLOKB2YtjPDbQ5tHijF9LE1aM
+id: looptheme_site_branding
+theme: looptheme
+region: header
+weight: 0
+provider: null
+plugin: system_branding_block
+settings:
+  id: system_branding_block
+  label: 'Site branding'
+  label_display: '0'
+  provider: system
+  use_site_logo: true
+  use_site_name: true
+  use_site_slogan: false
+visibility: {  }

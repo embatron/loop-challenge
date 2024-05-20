@@ -35,7 +35,9 @@ module:
   page_cache: 0
   path: 0
   path_alias: 0
+  rest: 0
   search: 0
+  serialization: 0
   shortcut: 0
   system: 0
   taxonomy: 0
@@ -52,4 +54,5 @@ module:
 theme:
   olivero: 0
   claro: 0
+  looptheme: 0
 profile: standard

@@ -1,0 +1,28 @@
+uuid: 20eeb109-4390-4073-87f4-0a49732864e9
+langcode: en
+status: true
+dependencies:
+  module:
+    - language
+  theme:
+    - looptheme
+id: looptheme_languageswitcher
+theme: looptheme
+region: content
+weight: -3
+provider: null
+plugin: 'language_block:language_interface'
+settings:
+  id: 'language_block:language_interface'
+  label: 'Choose Language'
+  label_display: visible
+  provider: language
+visibility:
+  language:
+    id: language
+    negate: false
+    context_mapping:
+      language: '@language.current_language_context:language_interface'
+    langcodes:
+      en: en
+      de: de
